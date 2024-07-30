@@ -1,6 +1,4 @@
-#Done!
 import cv2
-import imutils
 import numpy as np
 from utils_old import get_characters_from_image
 import os

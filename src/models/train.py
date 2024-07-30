@@ -1,6 +1,5 @@
-#Done!
 import tensorflow as tf
-from models import Classifier, get_classifier_model
+from models import get_classifier_model
 import argparse
 from utils import get_loaders, get_class_weight, CLASSES
 import tensorflow_addons as tfa
@@ -8,8 +7,7 @@ import tensorflow_addons as tfa
 # sets up and trains a classifier model
 def train(args):
     # Get model and compile
-    # model = Classifier(num_classes=len(CLASSES))
-    model = get_classifier_model(num_classes=len(CLASSES))
+    model = get_classifier_model(num_classes=len(CLASSES)) 
     # Compile Model: configuring the model for training by specifying the loss function, optimizer, and metrics
     model.compile(
         loss=tf.keras.losses.CategoricalCrossentropy(),

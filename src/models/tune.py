@@ -1,16 +1,14 @@
-#Done!
 import tensorflow as tf
 import tensorflow_addons as tfa
 from tensorboard.plugins.hparams import api as hp
-from sklearn.metrics import precision_score, recall_score, roc_auc_score
 import argparse
-from models import Classifier, get_classifier_model
+from models import get_classifier_model
 from utils import get_loaders, get_class_weight, CLASSES, learning_rate_search_space
 import numpy as np
 
 def train_test_model(args, hparams) -> float:
     # Model Compilation: perform after writing the statements in a model and before training starts
-    model = get_classifier_model(num_classes=len(CLASSES))
+    model = get_classifier_model(num_classes=len(CLASSES)) 
     model.compile(
         # Loss function: Categorical Cross-Entropy
         loss=tf.keras.losses.CategoricalCrossentropy(),
@@ -58,28 +56,12 @@ def train_test_model(args, hparams) -> float:
         callbacks=[callbacks],
     )
     
-    # Model Evaluation
-    # _, f1_score = model.evaluate(validation_ds)
-    # return f1_score
-    
-    # !!!
     loss, f1_score = model.evaluate(validation_ds)
-    # y_pred = model.predict(validation_ds)
-    
-    # validation_data = next(iter(validation_ds))
-    # y_true = np.argmax(validation_data[1].numpy(), axis=1)
     
     accuracy = model.evaluate(validation_ds, verbose=0)[1]
-    # precision = precision_score(y_true, np.argmax(y_pred, axis=1), average='macro', zero_division='warn')
-    # recall = recall_score(y_true, np.argmax(y_pred, axis=1), average='macro')
-    # auc_roc = roc_auc_score(y_true, y_pred, multi_class='ovr')
-
     metrics = {
         METRIC_F1Score: f1_score,
         METRIC_ACCURACY: accuracy,
-        # METRIC_PRECISION: precision,
-        # METRIC_RECALL: recall,
-        # METRIC_AUC_ROC: auc_roc
     }
 
     return metrics
@@ -91,10 +73,6 @@ def run(run_dir, hparams, args):
         # record the hyperparametr values used in this trial
         hp.hparams(hparams)
         # write F1 score to the TensorFlow summary
-        # f1_score = train_test_model(args, hparams)
-        # tf.summary.scalar(METRIC_F1Score, f1_score, step=1)
-        
-        # !!!
         metrics = train_test_model(args, hparams)
 
         for metric, value in metrics.items():
@@ -124,12 +102,7 @@ if __name__ == "__main__":
     HP_USE_CLASS_WEIGHT = hp.HParam("class_weight", hp.Discrete([True, False]))
 
     METRIC_F1Score = "f1_score"
-    
-    # !!!
     METRIC_ACCURACY = "accuracy"
-    # METRIC_PRECISION = "precision"
-    # METRIC_RECALL = "recall"
-    # METRIC_AUC_ROC = "auc_roc"
     
     with tf.summary.create_file_writer("logs/hparam_tuning").as_default():
         # configures the hyperparameters and metrics
@@ -137,12 +110,7 @@ if __name__ == "__main__":
             hparams=[HP_LEARNING_RATE, HP_BATCH_SIZE, HP_USE_CLASS_WEIGHT],
             metrics=[
                 hp.Metric(METRIC_F1Score, display_name="F1_Score"),
-                
-                # !!!
                 hp.Metric(METRIC_ACCURACY, display_name="Accuracy"),
-                # hp.Metric(METRIC_PRECISION, display_name="Precision"),
-                # hp.Metric(METRIC_RECALL, display_name="Recall"),
-                # hp.Metric(METRIC_AUC_ROC, display_name="AUC_ROC"),
             ],
         )
 

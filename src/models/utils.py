@@ -1,4 +1,3 @@
-#Done!
 import tensorflow as tf
 import math
 import os
