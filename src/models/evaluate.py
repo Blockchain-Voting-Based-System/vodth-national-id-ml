@@ -1,11 +1,10 @@
-#Done!
 import tensorflow as tf
 import tensorflow_addons as tfa
-from models import Classifier, InferenceClassifier, get_classifier_model
+from models import get_classifier_model
 import argparse
 from utils import get_test_loader, CLASSES, ConfusionMatrix
 import json
-from typing import Dict
+# from typing import Dict
 
 #  evaluate the performance of a machine learning model on a test dataset
 def evaluate_model(args, model):
@@ -28,7 +27,7 @@ def load_model(args):
     # tensor: initialize the model with the appropriate input shape
     test_sample = tf.random.normal(shape=(1, 60, 40, 1))
     # model = Classifier(num_classes=len(CLASSES))
-    model = get_classifier_model(num_classes=len(CLASSES))
+    model = get_classifier_model(num_classes=len(CLASSES)) 
     model.compile(
         loss=tf.keras.losses.CategoricalCrossentropy(),
         optimizer=tf.keras.optimizers.Adam(learning_rate=4e-3),

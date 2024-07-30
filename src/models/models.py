@@ -1,55 +1,5 @@
-#Done!
 import tensorflow as tf
 from utils import CLASSES
-
-# Class-based
-# custom Classifier class that inherits from the 'tf.keras.Model' class
-class Classifier(tf.keras.Model):
-    # num_classes: The number of classes in the classification problem
-    # conv_dims: A list of convolutional layer dimensions (default is [16, 32, 64])
-    def __init__(self, num_classes, conv_dims=[16, 32, 64]) -> None:
-        super().__init__()
-        self.num_classes = num_classes
-        self.conv_dims = conv_dims
-        self.conv_layers = []   # store the convolutional blocks.
-        
-        # creates the convolutional blocks and appends them to the 'self.conv_layers' list
-        for conv in conv_dims:
-            conv_block = tf.keras.models.Sequential(
-                [
-                    # apply a set of learnable filters (or kernels) to the input image
-                    tf.keras.layers.Conv2D(
-                        filters=conv, kernel_size=(3, 3), activation="relu"
-                    ),
-                    # reduce the number of parameters in the model and extract the most important features
-                    tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
-                ]
-            )
-            self.conv_layers.append(conv_block)
-        
-        # creates a multilayer perceptron (MLP)
-        self.mlp = tf.keras.models.Sequential(
-            [
-                # a densely-connected neural network layer,
-                tf.keras.layers.Dense(50, activation="relu"),
-                tf.keras.layers.Dense(num_classes, activation="softmax"),
-            ]
-        )
-        
-        # create a layer that normalize pixel values between 0 and 1
-        self.scale = tf.keras.layers.Rescaling(1.0 / 255)
-        
-        # create a layer that flattens the input tensor
-        self.flatten = tf.keras.layers.Flatten()
-
-    # Forward Pass: the input data flows through the various layers of the model to produce the output
-    def call(self, x) -> tf.Tensor:
-        x = self.scale(x)
-        for layer in self.conv_layers:
-            x = layer(x)
-        x = self.flatten(x)
-        x = self.mlp(x)
-        return x
 
 # Function-based
 # creates a Convolutional Neural Network (CNN) model for image classification tasks

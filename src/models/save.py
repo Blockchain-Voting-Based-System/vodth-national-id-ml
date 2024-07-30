@@ -1,13 +1,11 @@
-#Done!
 import tensorflow as tf
 import tensorflow_addons as tfa
-from models import Classifier, InferenceClassifier, get_classifier_model
+from models import InferenceClassifier, get_classifier_model
 import argparse
 from utils import CLASSES
 
 def load_model(args):
     test_sample = tf.random.normal(shape=(1, 60, 40, 1))
-    # model = Classifier(num_classes=len(CLASSES))
     model = get_classifier_model(num_classes=len(CLASSES))
     model.compile(
         loss=tf.keras.losses.CategoricalCrossentropy(),

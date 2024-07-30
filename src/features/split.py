@@ -1,4 +1,3 @@
-#Done!
 import os
 import random
 from shutil import copyfile
@@ -92,8 +91,6 @@ def split_data(
             if len(shuffled_set) > max_class_size:
                 shuffled_set = shuffled_set[0:max_class_size]
         # calculates the number of files to be allocated to the training, validation, and testing sets based on 'split_size'
-        # testing_length = int(len(shuffled_set) * split_size)
-        # validation_length = int(len(shuffled_set) * split_size)
         # make sure that validation and testing set have at least and at most 1 data for 'split_size' = 0.1
         testing_length = max(1, int(len(shuffled_set) * split_size))
         validation_length = max(1, int(len(shuffled_set) * split_size))
