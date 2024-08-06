@@ -14,7 +14,7 @@
 
         pip install -r requirements.txt
 
-### How to run
+### How to train the model
 
 - Preprocessing steps to build the unlabeled data
 
@@ -53,3 +53,9 @@
 - Covert the model file from h5 to tflite
 
         python src/models/convert.py
+
+### How to run this project with FastAPI
+
+- Run the commend below
+
+        uvicorn src.app.api:app --host 0.0.0.0 --port 8000

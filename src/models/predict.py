@@ -44,7 +44,6 @@ CLASSES = [
     "X",
     "Y",
     "Z",
-    # "_seperator",
     "<",
 ]
 
